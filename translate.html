@@ -206,26 +206,21 @@
                         // document.getElementById('speech_text-fg').innerHTML = recog_text;
 
                         query = TRANS_URL + '?text=' + recog_text + '&source=' + trans_sourcelang + '&target=' + trans_destlang + '&target_lang=' + trans_destlang;
-                        request.open('GET', query, true);
-                        request.setRequestHeader('Access-Control-Allow-Credentials', 'true');
-                        request.setRequestHeader('Access-Control-Allow-Headers', 'access-control-allow,access-control-allow-credentials,access-control-allow-headers,access-control-allow-methods,authorization,control-allow-headers,cross-origin-resource-policy,deepl-auth-key,wildcard');
-                        request.setRequestHeader('Access-Control-Allow-Methods', 'DELETE, POST, GET, OPTIONS'); 
-                        request.setRequestHeader('Access-Control-Allow-Origin', 'https://enthusiastic-beds-production.up.railway.app');
-                        request.setRequestHeader('Access-Control-Expose-Headers', 'Server-Timing');
-
-                        request.setRequestHeader('Authorization', "DeepL-Auth-Key " + DEEPL_KEY);
-                        //request.setRequestHeader('DeepL-Auth-Key', DEEPL_KEY);
-                        request.setRequestHeader('Access-Control-Request-Headers', '*');
-                        
-                        
-                        request.setRequestHeader('wildcard', '*');                       
-                        request.setRequestHeader('Cross-Origin-Resource-Policy', 'cross-origin');
-                        //request.setRequestHeader('Control-Allow-Headers', '*');
-                        request.setRequestHeader('Access-Control-Allow', '*');
-                        //request.setRequestHeader('target', recog_text)
-                        //request.setRequestHeader('lang', trans_destlang)                        
-
-                        request.onreadystatechange = function () {
+                        fetch(query, {
+                            method: 'GET',
+                            headers: {
+                                'Access-Control-Allow-Credentials': 'true',
+                                'Access-Control-Allow-Headers': 'access-control-allow,access-control-allow-credentials,access-control-allow-headers,access-control-allow-methods,authorization,control-allow-headers,cross-origin-resource-policy,deepl-auth-key,wildcard',
+                                'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',
+                                'Access-Control-Allow-Origin': 'https://enthusiastic-beds-production.up.railway.app',
+                                'Access-Control-Expose-Headers': 'Server-Timing',
+                                'Authorization': "DeepL-Auth-Key " + DEEPL_KEY,
+                                'DeepL-Auth-Key': DEEPL_KEY,
+                                'wildcard': '*',
+                                'Cross-Origin-Resource-Policy': 'cross-origin',
+                                'Access-Control-Allow': '*',
+                            }
+                        }).then(response => response.json()).then(data => {
                             if (request.readyState === 4 && request.status === 200) {
                                 // document.getElementById('speech_text-imb').innerHTML = recog_text;
                                 // document.getElementById('speech_text-bg').innerHTML = recog_text;
@@ -236,9 +231,9 @@
                                 document.getElementById('trans_text-bg').innerHTML = trans_text;
                                 document.getElementById('trans_text-fg').innerHTML = trans_text;
                             }
-                            vr_function();
-                        }
-                        request.send(null);
+                            vr_function()
+                        });                   
+
                         if (gs_key != null) {
                             
                             
