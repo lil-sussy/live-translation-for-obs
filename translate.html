@@ -207,16 +207,20 @@
 
                         query = TRANS_URL + '?text=' + recog_text + '&source=' + trans_sourcelang + '&target=' + trans_destlang + '&target_lang=' + trans_destlang;
                         request.open('GET', query, true);
-                        request.setRequestHeader('Authorization', "DeepL-Auth-Key " + DEEPL_KEY);
-                        request.setRequestHeader('DeepL-Auth-Key', DEEPL_KEY);
-                        request.setRequestHeader('Access-Control-Request-Headers', 'access-control-allow,access-control-allow-credentials,access-control-allow-headers,access-control-allow-methods,authorization,control-allow-headers,cross-origin-resource-policy,deepl-auth-key,wildcard');
                         request.setRequestHeader('Access-Control-Allow-Credentials', 'true');
+                        request.setRequestHeader('Access-Control-Allow-Headers', 'access-control-allow,access-control-allow-credentials,access-control-allow-headers,access-control-allow-methods,authorization,control-allow-headers,cross-origin-resource-policy,deepl-auth-key,wildcard');
                         request.setRequestHeader('Access-Control-Allow-Methods', 'DELETE, POST, GET, OPTIONS'); 
-                        request.setRequestHeader('wildcard', '*');
                         request.setRequestHeader('Access-Control-Allow-Origin', 'https://enthusiastic-beds-production.up.railway.app');
-                        request.setRequestHeader('Access-Control-Allow-Headers', '"Content-Type, Authorization, X-Requested-With"');
+                        request.setRequestHeader('Access-Control-Expose-Headers', 'Server-Timing');
+
+                        request.setRequestHeader('Authorization', "DeepL-Auth-Key " + DEEPL_KEY);
+                        //request.setRequestHeader('DeepL-Auth-Key', DEEPL_KEY);
+                        request.setRequestHeader('Access-Control-Request-Headers', '*');
+                        
+                        
+                        request.setRequestHeader('wildcard', '*');                       
                         request.setRequestHeader('Cross-Origin-Resource-Policy', 'cross-origin');
-                        request.setRequestHeader('Control-Allow-Headers', '*');
+                        //request.setRequestHeader('Control-Allow-Headers', '*');
                         request.setRequestHeader('Access-Control-Allow', '*');
                         //request.setRequestHeader('target', recog_text)
                         //request.setRequestHeader('lang', trans_destlang)                        
