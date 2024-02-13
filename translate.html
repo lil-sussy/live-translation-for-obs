@@ -210,6 +210,7 @@
                             method: 'GET',
                             headers: {
                                 'Authorization': "DeepL-Auth-Key " + DEEPL_KEY,
+                                'Content-Type': 'application/x-www-form-urlencoded',
                             }
                         }).then(response => response.json()).then(data => {
                             if (request.readyState === 4 && request.status === 200) {
