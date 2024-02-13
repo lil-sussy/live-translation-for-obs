@@ -205,10 +205,10 @@
                         // document.getElementById('speech_text-fg').innerHTML = recog_text;
 
                         query = TRANS_URL + '?text=' + recog_text + '&source=' + trans_sourcelang + '&target=' + trans_destlang + '&target_lang=' + trans_destlang;
+                        request.open('GET', query, true);
                         request.setRequestHeader('Authorization', DEEPL_KEY)
                         //request.setRequestHeader('target', recog_text)
-                        //request.setRequestHeader('lang', trans_destlang)
-                        request.open('GET', query, true);
+                        //request.setRequestHeader('lang', trans_destlang)                        
 
                         request.onreadystatechange = function () {
                             if (request.readyState === 4 && request.status === 200) {
