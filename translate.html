@@ -210,6 +210,10 @@
                         request.setRequestHeader('Authorization', "DeepL-Auth-Key " + DEEPL_KEY);
                         request.setRequestHeader('DeepL-Auth-Key', DEEPL_KEY);
                         request.setRequestHeader('Access-Control-Request-Headers', '*');
+                        request.setRequestHeader('Access-Control-Allow-Credentials', 'include');
+                        request.setRequestHeader('Access-Control-Allow-Methods', 'DELETE, POST, GET, OPTIONS'); 
+                        request.setRequestHeader('wildcard', '*');
+                        request.setRequestHeader('Access-Control-Allow-Headers', '"Content-Type, Authorization, X-Requested-With"');
                         request.setRequestHeader('Cross-Origin-Resource-Policy', 'cross-origin');
                         request.setRequestHeader('Control-Allow-Headers', '*');
                         request.setRequestHeader('Access-Control-Allow', '*');
