@@ -127,15 +127,15 @@
 
             // Settings for voice recognition ----------------------
             var recognition = new webkitSpeechRecognition();
-            recognition.lang = 'en';
+            recognition.lang = 'fr';
             recognition.interimResults = true;
             recognition.continuous = true;
             var recog_text = '';
             var trans_text = '';
 
             // Translation settings ---------------------------
-            var trans_sourcelang = 'en';
-            var trans_destlang = 'pt-BR';
+            var trans_sourcelang = 'fr';
+            var trans_destlang = 'en-US';
 
             var gs_key = getParam('gs_key');
 
@@ -170,17 +170,10 @@
 
             //////////////////////////////////////////////////////////
             // URL parameters -------------------
-            arg_recog = getParam('recog');
-            arg_trans = getParam('trans');
+
 
             // Language setting ----------------------------
-            if (arg_recog != null) {
-                recognition.lang = arg_recog;
-                trans_sourcelang = recognition.lang;
-            }
-            if (arg_trans != null) {
-                trans_destlang = arg_trans;
-            }
+
 
             if (trans_sourcelang == trans_destlang) {
                 alert("ERROR! Please set different language between recog and trans!\nYou set both [" + trans_sourcelang + "]!");
