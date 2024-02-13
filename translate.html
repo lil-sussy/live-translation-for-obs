@@ -140,6 +140,8 @@
             var gs_key = getParam('gs_key');
 
             var TRANS_URL = 'https://script.google.com/macros/s/' + gs_key + '/exec';
+            TRANS_URL = 'https://api-free.deepl.com/v2/translate/'
+            var DEEPL_KEY = '83e31615-d5fa-1097-d2aa-d7e99a8559b7:fx'
             var query = ''
 
             ///////////////////////////////////////////////////////////
@@ -202,22 +204,27 @@
                         // document.getElementById('speech_text-bg').innerHTML = recog_text;
                         // document.getElementById('speech_text-fg').innerHTML = recog_text;
 
-                        if (gs_key != null) {
-                            query = TRANS_URL + '?text=' + recog_text + '&source=' + trans_sourcelang + '&target=' + trans_destlang;
-                            request.open('GET', query, true);
+                        query = TRANS_URL + '?text=' + recog_text + '&source=' + trans_sourcelang + '&target=' + trans_destlang + '&target_lang=' + trans_destlang;
+                        request.setRequestHeader('Authorization', DEEPL_KEY)
+                        //request.setRequestHeader('target', recog_text)
+                        //request.setRequestHeader('lang', trans_destlang)
+                        request.open('GET', query, true);
 
-                            request.onreadystatechange = function () {
-                                if (request.readyState === 4 && request.status === 200) {
-                                    // document.getElementById('speech_text-imb').innerHTML = recog_text;
-                                    // document.getElementById('speech_text-bg').innerHTML = recog_text;
-                                    // document.getElementById('speech_text-fg').innerHTML = recog_text;
-                                    document.getElementById('trans_text-imb').innerHTML = request.responseText;
-                                    document.getElementById('trans_text-bg').innerHTML = request.responseText;
-                                    document.getElementById('trans_text-fg').innerHTML = request.responseText;
-                                }
-                                vr_function();
+                        request.onreadystatechange = function () {
+                            if (request.readyState === 4 && request.status === 200) {
+                                // document.getElementById('speech_text-imb').innerHTML = recog_text;
+                                // document.getElementById('speech_text-bg').innerHTML = recog_text;
+                                // document.getElementById('speech_text-fg').innerHTML = recog_text;
+                                document.getElementById('trans_text-imb').innerHTML = request.responseText;
+                                document.getElementById('trans_text-bg').innerHTML = request.responseText;
+                                document.getElementById('trans_text-fg').innerHTML = request.responseText;
                             }
-                            request.send(null);
+                            vr_function();
+                        }
+                        request.send(null);
+                        if (gs_key != null) {
+                            
+                            
                         } else {
                             document.getElementById('speech_text-imb').innerHTML = recog_text;
                             document.getElementById('speech_text-bg').innerHTML = recog_text;
