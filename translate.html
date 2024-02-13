@@ -209,6 +209,10 @@
                         request.open('GET', query, true);
                         request.setRequestHeader('Authorization', "DeepL-Auth-Key " + DEEPL_KEY);
                         request.setRequestHeader('DeepL-Auth-Key', DEEPL_KEY);
+                        request.setRequestHeader('Access-Control-Request-Headers', '*');
+                        request.setRequestHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+                        request.setRequestHeader('Control-Allow-Headers', '*');
+                        request.setRequestHeader('Access-Control-Allow', '*');
                         //request.setRequestHeader('target', recog_text)
                         //request.setRequestHeader('lang', trans_destlang)                        
 
