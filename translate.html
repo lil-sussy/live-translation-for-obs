@@ -60,6 +60,7 @@
         table {
             width: 100%;
             /* table-layout: fixed; */
+            margin-bottom: 50px;
         }
 
         table.btm_table {
@@ -89,7 +90,7 @@
             left: 0;
             right: 0;
             margin: auto;
-            /* -webkit-text-stroke: 3px #FF0000;  */
+            /* -webkit-text-stroke: 2px #FF0000;  */
         }
 
         /* add a single stroke */
@@ -140,7 +141,7 @@
             var gs_key = getParam('gs_key');
 
             var TRANS_URL = 'https://script.google.com/macros/s/' + gs_key + '/exec';
-            TRANS_URL = 'https://api-free.deepl.com/v2/translate/'
+            TRANS_URL = 'https://api-free.deepl.com/v2/translate'
             var DEEPL_KEY = '83e31615-d5fa-1097-d2aa-d7e99a8559b7:fx'
             var query = ''
 
@@ -206,7 +207,8 @@
 
                         query = TRANS_URL + '?text=' + recog_text + '&source=' + trans_sourcelang + '&target=' + trans_destlang + '&target_lang=' + trans_destlang;
                         request.open('GET', query, true);
-                        request.setRequestHeader('Authorization', DEEPL_KEY)
+                        request.setRequestHeader('Authorization', "DeepL-Auth-Key " + DEEPL_KEY);
+                        request.setRequestHeader('DeepL-Auth-Key', DEEPL_KEY);
                         //request.setRequestHeader('target', recog_text)
                         //request.setRequestHeader('lang', trans_destlang)                        
 
@@ -215,9 +217,11 @@
                                 // document.getElementById('speech_text-imb').innerHTML = recog_text;
                                 // document.getElementById('speech_text-bg').innerHTML = recog_text;
                                 // document.getElementById('speech_text-fg').innerHTML = recog_text;
-                                document.getElementById('trans_text-imb').innerHTML = request.responseText;
-                                document.getElementById('trans_text-bg').innerHTML = request.responseText;
-                                document.getElementById('trans_text-fg').innerHTML = request.responseText;
+                                response = JSON.parse(request.responseText);
+                                trans_text = response.translations[0].text;
+                                document.getElementById('trans_text-imb').innerHTML = trans_text;
+                                document.getElementById('trans_text-bg').innerHTML = trans_text;
+                                document.getElementById('trans_text-fg').innerHTML = trans_text;
                             }
                             vr_function();
                         }
@@ -310,7 +314,7 @@
     }
 
     if (getParam('st_width') != null) {
-        document.getElementById("trans_text-imb").style.webkitTextStrokeWidth = getParam('st_width') + 'pt';
+        document.getElementById("trans_text-imb").style.webkitTextStrokeWidth = getParam('st_width')*2 + 'pt';
     }
 
 
@@ -324,7 +328,7 @@
     }
 
     if (getParam('color') != null) {
-        document.getElementById("speech_text-fg").style.color = getParam('color');
+        document.getElementById("speech_text-fg").style.color = "gray";
     }
 
     if (getParam('st_color') != null) {
@@ -341,6 +345,7 @@
 
 
     // Translation result text
+    document.getElementById("trans_text-fg").style.fontSize = "34pt";
     if (getParam('color') != null) {
         document.getElementById("trans_text-fg").style.color = getParam('color');
     }
@@ -348,9 +353,9 @@
     if (getParam('st_color') != null) {
         document.getElementById("trans_text-bg").style.webkitTextStrokeColor = getParam('st_color');
     }
-
+    document.getElementById("trans_text-bg").style.fontSize = "34pt";
     if (getParam('st_width') != null) {
-        document.getElementById("trans_text-bg").style.webkitTextStrokeWidth = getParam('st_width') + 'pt';
+        document.getElementById("trans_text-bg").style.webkitTextStrokeWidth = getParam('st_width')*1.3 + 'pt';
     }
 
     function getParam(name, url) {
