@@ -206,30 +206,12 @@
                         // document.getElementById('speech_text-fg').innerHTML = recog_text;
 
                         query = TRANS_URL;
-                        fetch(query, {
-                            method: 'GET',
+                        fetch('/translate', {
+                            method: 'POST',
                             headers: {
-                                'Access-Control-Allow-Credentials': 'true',
-                                'Access-Control-Allow-Headers': 'access-control-allow,access-control-allow-credentials,access-control-allow-headers,access-control-allow-methods,authorization,control-allow-headers,cross-origin-resource-policy,deepl-auth-key,wildcard',
-                                'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',
-                                'Access-Control-Allow-Origin': 'https://enthusiastic-beds-production.up.railway.app',
-                                'Access-Control-Expose-Headers': 'Server-Timing',
-                                'Authorization': "DeepL-Auth-Key " + DEEPL_KEY,
-                                'DeepL-Auth-Key': DEEPL_KEY,
-                                'wildcard': '*',
-                                'Cross-Origin-Resource-Policy': 'cross-origin',
-                                'Access-Control-Allow': '*',
-                                
-                                'Content-Type': 'application/json',
-                                'Referrer-Policy': 'no-referrer',
+                            'Content-Type': 'application/json'
                             },
-                            data: {
-                                "text": [
-                                    recog_text 
-                                ],
-                                "target_lang": trans_destlang
-                            },
-                            referrerPolicy: 'no-referrer',
+                            body: JSON.stringify({ text, source_lang: sourceLang, target_lang: targetLang })
                         }).then(response => response.json()).then(data => {
                             if (request.readyState === 4 && request.status === 200) {
                                 // document.getElementById('speech_text-imb').innerHTML = recog_text;
