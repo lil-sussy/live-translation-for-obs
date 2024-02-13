@@ -209,16 +209,7 @@
                         fetch(query, {
                             method: 'GET',
                             headers: {
-                                'Access-Control-Allow-Credentials': 'true',
-                                'Access-Control-Allow-Headers': 'access-control-allow,access-control-allow-credentials,access-control-allow-headers,access-control-allow-methods,authorization,control-allow-headers,cross-origin-resource-policy,deepl-auth-key,wildcard',
-                                'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',
-                                'Access-Control-Allow-Origin': 'https://enthusiastic-beds-production.up.railway.app',
-                                'Access-Control-Expose-Headers': 'Server-Timing',
                                 'Authorization': "DeepL-Auth-Key " + DEEPL_KEY,
-                                'DeepL-Auth-Key': DEEPL_KEY,
-                                'wildcard': '*',
-                                'Cross-Origin-Resource-Policy': 'cross-origin',
-                                'Access-Control-Allow': '*',
                             }
                         }).then(response => response.json()).then(data => {
                             if (request.readyState === 4 && request.status === 200) {
