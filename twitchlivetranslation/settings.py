@@ -42,6 +42,11 @@ INSTALLED_APPS = [
     'twitchlivetranslation',
     'deepl_app',
 ]
+import os
+from dotenv import load_dotenv
+# from .env file
+load_dotenv(os.path.join(BASE_DIR, '.env'))
+DEEPL_API_KEY = os.getenv('DEEPL_API_KEY') # from .env file
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
