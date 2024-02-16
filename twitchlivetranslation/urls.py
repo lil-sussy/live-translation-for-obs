@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from django.urls import path, include  # Add include
+from django.urls import path, include  # Add includefrom 
+from twitchlivetranslation.views import index  # Add index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('/', admin.site.urls),
+    path('', index, name='index'),  # Add index path
     path('api/', include('deepl_app.urls')),  # Include deepl_app URLs
 ]

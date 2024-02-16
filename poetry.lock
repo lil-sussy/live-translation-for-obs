@@ -174,6 +174,51 @@ files = [
 ]
 
 [[package]]
+name = "pvcheetah"
+version = "2.0.1"
+description = "Cheetah Speech-to-Text Engine."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "pvcheetah-2.0.1-py3-none-any.whl", hash = "sha256:a725eb5611270eebf113e47977d49f918eb916802754e8848e607001aa43ad11"},
+    {file = "pvcheetah-2.0.1.tar.gz", hash = "sha256:5b65f9192134f5369bdcdd7f7dfa00ae899948b89f4f494ad0b84e690e7fe550"},
+]
+
+[[package]]
+name = "pyaudio"
+version = "0.2.14"
+description = "Cross-platform audio I/O with PortAudio"
+optional = false
+python-versions = "*"
+files = [
+    {file = "PyAudio-0.2.14-cp310-cp310-win32.whl", hash = "sha256:126065b5e82a1c03ba16e7c0404d8f54e17368836e7d2d92427358ad44fefe61"},
+    {file = "PyAudio-0.2.14-cp310-cp310-win_amd64.whl", hash = "sha256:2a166fc88d435a2779810dd2678354adc33499e9d4d7f937f28b20cc55893e83"},
+    {file = "PyAudio-0.2.14-cp311-cp311-win32.whl", hash = "sha256:506b32a595f8693811682ab4b127602d404df7dfc453b499c91a80d0f7bad289"},
+    {file = "PyAudio-0.2.14-cp311-cp311-win_amd64.whl", hash = "sha256:bbeb01d36a2f472ae5ee5e1451cacc42112986abe622f735bb870a5db77cf903"},
+    {file = "PyAudio-0.2.14-cp312-cp312-win32.whl", hash = "sha256:5fce4bcdd2e0e8c063d835dbe2860dac46437506af509353c7f8114d4bacbd5b"},
+    {file = "PyAudio-0.2.14-cp312-cp312-win_amd64.whl", hash = "sha256:12f2f1ba04e06ff95d80700a78967897a489c05e093e3bffa05a84ed9c0a7fa3"},
+    {file = "PyAudio-0.2.14-cp38-cp38-win32.whl", hash = "sha256:858caf35b05c26d8fc62f1efa2e8f53d5fa1a01164842bd622f70ddc41f55000"},
+    {file = "PyAudio-0.2.14-cp38-cp38-win_amd64.whl", hash = "sha256:2dac0d6d675fe7e181ba88f2de88d321059b69abd52e3f4934a8878e03a7a074"},
+    {file = "PyAudio-0.2.14-cp39-cp39-win32.whl", hash = "sha256:f745109634a7c19fa4d6b8b7d6967c3123d988c9ade0cd35d4295ee1acdb53e9"},
+    {file = "PyAudio-0.2.14-cp39-cp39-win_amd64.whl", hash = "sha256:009f357ee5aa6bc8eb19d69921cd30e98c42cddd34210615d592a71d09c4bd57"},
+    {file = "PyAudio-0.2.14.tar.gz", hash = "sha256:78dfff3879b4994d1f4fc6485646a57755c6ee3c19647a491f790a0895bd2f87"},
+]
+
+[package.extras]
+test = ["numpy"]
+
+[[package]]
+name = "pydub"
+version = "0.25.1"
+description = "Manipulate audio with an simple and easy high level interface"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pydub-0.25.1-py2.py3-none-any.whl", hash = "sha256:65617e33033874b59d87db603aa1ed450633288aefead953b30bded59cb599a6"},
+    {file = "pydub-0.25.1.tar.gz", hash = "sha256:980a33ce9949cab2a569606b65674d748ecbca4f0796887fd6f46173a7b0d30f"},
+]
+
+[[package]]
 name = "python-dotenv"
 version = "1.0.1"
 description = "Read key-value pairs from a .env file and set them as environment variables"
@@ -218,6 +263,24 @@ urllib3 = ">=1.21.1,<3"
 [package.extras]
 socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
+
+[[package]]
+name = "speechrecognition"
+version = "3.10.1"
+description = "Library for performing speech recognition, with support for several engines and APIs, online and offline."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "SpeechRecognition-3.10.1-py2.py3-none-any.whl", hash = "sha256:69898b2b0bbd5bc65647c5ef833fe318ad74f02e8a6af5c9fd671933083660bc"},
+    {file = "SpeechRecognition-3.10.1.tar.gz", hash = "sha256:718731886b7836e20a06b9a2c6cace12a9e130971bb6af1b1dd130b22bad9f82"},
+]
+
+[package.dependencies]
+requests = ">=2.26.0"
+typing-extensions = "*"
+
+[package.extras]
+whisper-api = ["openai"]
 
 [[package]]
 name = "sqlparse"
@@ -277,4 +340,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "b57164377da3cabd84ec60cb9e530dce64a364ea24f2079a799189c08309100d"
+content-hash = "92ce43df05faac581a18dde693b23ed0a977ab3f5959d141e42b26b32ce86919"
