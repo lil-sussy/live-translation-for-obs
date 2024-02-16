@@ -11,17 +11,19 @@ It uses pyaudio and the library speech_recogntion and also the deepl.com api (yo
 
 ## Installation 1: Get the deepl api key
 
-1. go to https://www.deepl.com/en/docs-api
-2. create an account (they will ask your credit card info even for the free tier)
-3. go account and get the key at the bottom
+1. Go to https://www.deepl.com/en/docs-api
+2. Create an account (they will ask your credit card info even for the free tier).
+3. Go account and get the key at the bottom.
+4. On the server directory create a ".env" file.
+5. Write your api key in the file: DEEPL_API_KEY = *your key*.
 
 ## Installation 2: start the local python django server
 
-1. go to the server directory
-2. run server by running (on windows) *python manage.py runserver* on the console (no admin required)
-3. NOTE the audio ID(s) corresponding to your recording device(s)
-4. in the twitchlivetranslation/settings.py replace the two first python variable id with your 1 or 2 audio devices
-5. stop (ctrl + c) and re-run server
+1.Go to the server directory.
+2. Run server by running (on windows) *python manage.py runserver* on the console (no admin required)
+3. **Note** the audio ID(s) corresponding to your recording device(s)
+4. In the twitchlivetranslation/settings.py replace the two first python variable id with your 1 or 2 audio devices
+5. Stop (ctrl + c) and re-run server
 
 ## Installation 3: Create the OBS source
 
