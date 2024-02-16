@@ -5,12 +5,25 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Python Debugger: Django",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/manage.py",
+      "args": [
+        "runserver"
+      ],
+      "django": true
+    },
+    {
       "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome against localhost",
       "url": "http://localhost:8080",
       "webRoot": "${workspaceFolder}",
-      "runtimeArgs": ["--disable-web-security", "--user-data-dir=\"desktop\""],
+      "runtimeArgs": [
+        "--disable-web-security",
+        "--user-data-dir=\"desktop\""
+      ],
     }
   ]
 }
