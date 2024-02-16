@@ -7,7 +7,6 @@ It uses pyaudio and the library speech_recogntion and also the deepl.com api (yo
 
 ## Pre-requisites
 - OBS
-- deepl free api key
 
 
 ## Installation 1: Get the deepl api key
