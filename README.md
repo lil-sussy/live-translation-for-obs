@@ -7,6 +7,8 @@ It uses pyaudio and the library speech_recogntion and also the deepl.com api (yo
 
 ## Pre-requisites
 - OBS
+- Python 3.10
+- python pipx and poetry installed
 
 
 ## Installation 1: Get the deepl api key
@@ -21,12 +23,15 @@ It uses pyaudio and the library speech_recogntion and also the deepl.com api (yo
 
 1.Go to the server directory.
 
-2. Run server by running (on windows) *python manage.py runserver* on the console (no admin required).
+2. Run poetry init, poetry install, and poetry shell
 
-3. **Note** the audio ID(s) corresponding to your recording device(s).
-4. In the twitchlivetranslation/settings.py replace the two first python variable id with your 1 or 2 audio devices.
+3. Run server by running (on windows) *python manage.py runserver* on the console (no admin required).
 
-5. Stop (ctrl + c) and re-run server.
+4. **Note** the audio ID(s) corresponding to your recording device(s).
+   
+5. In the twitchlivetranslation/settings.py replace the two first python variable id with your 1 or 2 audio devices.
+
+6. Stop (ctrl + c) and re-run server.
 
 
 ## Installation 3: Create the OBS source
