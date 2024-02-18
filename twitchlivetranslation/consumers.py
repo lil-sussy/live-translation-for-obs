@@ -34,6 +34,15 @@ class TaskProgressConsumer(AsyncWebsocketConsumer):
             if websockets:  # Check if there are any connections
                 await asyncio.wait([ws.send(json.dumps({'message': message})) for ws in websockets])
 
+    async def send_json(self, channel_name, dict_):
+        def sending_msg(dict_, websockets):
+            return [ws.send(json.dumps(dict_)) for ws in websockets]
+        """ Send a message to all WebSockets in a specific channel """
+        if channel_name in self.channels:
+            websockets = self.channels[channel_name]
+            if websockets:  # Check if there are any connections
+                await asyncio.wait([ws.send(json.dumps(dict_)) for ws in websockets])
+
     async def send_progress_update(self, channel_name, collection_name, progress):
         # Call this method to send a progress update to the frontend
         if channel_name in self.channels:
