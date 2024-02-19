@@ -15,10 +15,10 @@
 
 <main>
   <div class="translation-container">
-    <h2 class='translation'>{translationTextDiscord}</h2>
+    <h2 class='translation-discord'>{translationTextDiscord}</h2>
   </div>
   <div class="translation-container">
-    <h2 class='translation'>{translationTextMic}</h2>
+    <h2 class='translation-mic'>{translationTextMic}</h2>
   </div>
 </main>
 
@@ -28,6 +28,9 @@
     padding: 0!important;
   }
 	main {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
     background-color: black;
     width: 100vw;
     height: 100vh;
@@ -45,10 +48,18 @@
     padding-bottom: 4rem;
   }
   
-	.translation {
+	.translation-mic {
     text-align: center;
     color: #ffff;
 		font-size: 2rem;
+		font-weight: 500;
+    overflow: wrap;
+    width: 80%;
+	}
+	.translation-discord {
+    text-align: center;
+    color: cyan;
+		font-size: 1.4rem;
 		font-weight: 500;
     overflow: wrap;
     width: 80%;
