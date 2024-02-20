@@ -38,7 +38,9 @@ progress_consumer = consumers.TaskProgressConsumer()
 def listenMic():
   recognizer = sr.Recognizer()
   print(sounddevice.query_devices())
-  sounddevice.default.device = 'VoiceMeeter Aux Output (VB-Audio VoiceMeeter AUX VAIO), Windows DirectSound'
+  # sounddevice.default.device = 50
+  # sounddevice.default.device = 'VoiceMeeter Aux Output (VB-Audio VoiceMeeter AUX VAIO), Windows DirectSound'
+  # sounddevice.default.device = 'VoiceMeeter Aux Output (VB-Audio VoiceMeeter AUX VAIO), Windows WASAPI'
   sample_id = 0
   while(True):
       recording = sounddevice.rec(int(duration * freq), 

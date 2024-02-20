@@ -7,7 +7,7 @@
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const bg_color = urlParams.get('bg_color') || 'green';
-  const size = urlParams.get('size') || 2;
+  const size = urlParams.get('size') || 4;
   
   window.setInterval(function(){
     fetch('/api/translation/')
