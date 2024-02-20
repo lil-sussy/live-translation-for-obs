@@ -13,8 +13,14 @@
     fetch('/api/translation/')
       .then(response => response.json())
       .then(data => {
-        translationTextMic2 = translationTextMic
-        translationTextMic = data.raw_text;
+        if (data.mic.translated_text !== translationTextMic) {
+          translationTextMic2 = translationTextMic
+          translationTextMic = data.mic.translated_text
+        }
+        if (data.discord.translated_text !== translationTextDiscord) {
+          translationTextDiscord2 = translationTextDiscord
+          translationTextDiscord = data.discord.translated_text
+        }
       });
     }, 1000);
 </script>

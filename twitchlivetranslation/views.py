@@ -65,15 +65,15 @@ def listenDiscord():
     recognizer = sr.Recognizer()
     sample_id = 0
     while(True):
-        with sr.Microphone(20) as source:  # discord 3 mic 5
+        with sr.Microphone(3) as source:  # discord 3 mic 5
             # read the audio data from the default microphone
             try:
                 audio_data = recognizer.listen(source, timeout=5, phrase_time_limit=5)
             except sr.WaitTimeoutError:
                 continue
             # convert speech to text
-            speech_to_text_translate(sample_id, "discord", audio_data, recognizer)
-            # threading.Thread(target=speech_to_text_translate, args=(sample_id, "discord", audio_data, recognizer)).start()
+            # speech_to_text_translate(sample_id, "discord", audio_data, recognizer)
+            threading.Thread(target=speech_to_text_translate, args=(sample_id, "discord", audio_data, recognizer)).start()
             sample_id = (sample_id + 1) % 4
 
 import traceback
@@ -107,7 +107,7 @@ list_microphone_devices()
     
 
 def index(request):
-    start_listening()
+    # start_listening()
     return render(request, 'index.html')
   
 microphone_thread = threading.Thread(target=listenMic)
@@ -116,11 +116,13 @@ discord_thread = threading.Thread(target=listenDiscord)
 def start_listening():
     if not discord_thread.is_alive():
         discord_thread.start()
-    # if not microphone_thread.is_alive():
-    #     microphone_thread.start()
+    if not microphone_thread.is_alive():
+        microphone_thread.start()
 
 def apirequest_translated_text(request):
-    # start_listening()
+    # if not discord_thread.is_alive():
+    #       discord_thread.start()
+    start_listening()
     return JsonResponse({
         "discord": {
             "raw_text": untranslated_text["discord"],
