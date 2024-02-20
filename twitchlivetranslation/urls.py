@@ -17,13 +17,11 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import path, include  # Add includefrom 
 from twitchlivetranslation.views import index  # Add index
-from twitchlivetranslation.views import apirequest_microphone_translated  # Add index
-from twitchlivetranslation.views import apirequest_discord_translated  # Add index
+from twitchlivetranslation.views import apirequest_translated_text  # Add index
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),  # Add index path
     path('api/', include('deepl_app.urls')),  
-    path('api/translation/mic/', apirequest_microphone_translated),
-    path('api/translation/discord/', apirequest_discord_translated),  
+    path('api/translation/', apirequest_translated_text),  
 ]

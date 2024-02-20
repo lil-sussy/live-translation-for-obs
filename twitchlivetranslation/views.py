@@ -72,7 +72,8 @@ def listenDiscord():
             except sr.WaitTimeoutError:
                 continue
             # convert speech to text
-            threading.Thread(target=speech_to_text_translate, args=(sample_id, "discord", audio_data, recognizer)).start()
+            speech_to_text_translate(sample_id, "discord", audio_data, recognizer)
+            # threading.Thread(target=speech_to_text_translate, args=(sample_id, "discord", audio_data, recognizer)).start()
             sample_id = (sample_id + 1) % 4
 
 import traceback
@@ -81,16 +82,16 @@ def speech_to_text_translate(sample_id, text_id, audio_data, recognizer):
         if sample_id == 0:
             text_array[text_id] = audio_to_array(audio_data, 44100)
             untranslated_text[text_id] = recognizer.recognize_google(audio_data, language='fr-FR')
-            translated_text[text_id] = deepl_request(untranslated_text[text_id], 'en')['translations'][0]['text']
+            translated_text[text_id] = deepl_request(untranslated_text[text_id], 'EN-US')
         elif sample_id == 2:
             np.append(text_array[text_id], audio_to_array(audio_data, 44100))
             audio = array_to_audio(text_array[text_id], 44100)
             untranslated_text[text_id] = recognizer.recognize_google(audio, language='fr-FR')
-            translated_text[text_id] = deepl_request(untranslated_text[text_id], 'en')['translations'][0]['text']
+            translated_text[text_id] = deepl_request(untranslated_text[text_id], 'EN-US')
         else:
             np.append(text_array[text_id], audio_to_array(audio_data, 44100))
             untranslated_text[text_id] += " " + recognizer.recognize_google(audio_data, language='fr-FR')
-            translated_text[text_id] = deepl_request(untranslated_text[text_id], 'en')['translations'][0]['text']
+            translated_text[text_id] = deepl_request(untranslated_text[text_id], 'EN-US')
     except Exception as e:
         print(traceback.format_exc())
         pass
@@ -115,13 +116,18 @@ discord_thread = threading.Thread(target=listenDiscord)
 def start_listening():
     if not discord_thread.is_alive():
         discord_thread.start()
-    if not microphone_thread.is_alive():
-        microphone_thread.start()
+    # if not microphone_thread.is_alive():
+    #     microphone_thread.start()
 
-def apirequest_microphone_translated(request):
+def apirequest_translated_text(request):
     # start_listening()
-    return JsonResponse({"raw_text": untranslated_text["microphone"], "translated_text": translated_text["microphone"]})
-
-def apirequest_discord_translated(request):
-    # start_listening()
-    return JsonResponse({"raw_text": untranslated_text["discord"], "translated_text": translated_text["discord"]})
+    return JsonResponse({
+        "discord": {
+            "raw_text": untranslated_text["discord"],
+            "translated_text": translated_text["discord"]
+        },
+        "mic": {
+            "raw_text": untranslated_text["microphone"],
+            "translated_text": translated_text["microphone"]
+        }
+    })

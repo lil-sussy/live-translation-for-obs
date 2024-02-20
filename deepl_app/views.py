@@ -40,8 +40,11 @@ def deepl_request(text, target_lang):
         'text': [text],
         'source_lang': 'FR',  # 'FR' for 'French
         'target_lang': target_lang,
+        'split_sentences': '0',
+        'preserve_formatting': False,
+        'formality': 'prefer_less',
     }
     # referrerPolicy: 'no-referrer',
     # Make the request to DeepL
-    response = requests.post(deepl_url, headers=headers, json=data)
-    return response.json()
+    response = requests.post(deepl_url, headers=headers, json=data).json()['translations'][0]['text']
+    return response
