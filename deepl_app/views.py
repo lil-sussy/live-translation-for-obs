@@ -38,6 +38,7 @@ def deepl_request(text, target_lang):
     # Data to be sent to DeepL
     data = {
         'text': [text],
+        'source_lang': 'FR',  # 'FR' for 'French
         'target_lang': target_lang,
     }
     # referrerPolicy: 'no-referrer',

@@ -2,15 +2,20 @@
   export let translationTextMic = "Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!";
   export let translationTextDiscord = "Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!";
   
-  const socket = new WebSocket("ws://localhost:8001/translation-text");
-  socket.onmessage = function (event) {
-    console.log(event.data);
-    const data = JSON.parse(event.data);
-    if (data.id == 'microphone')
-      translationTextMic = data.text;
-    if (data.id == 'discord')
-      translationTextDiscord = data.text;
-  };
+  window.setInterval(function(){
+    fetch('/api/translation/mic/')
+      .then(response => response.json())
+      .then(data => {
+        translationTextMic = data.raw_text;
+      });
+  }, 1000);
+  window.setInterval(function(){
+    fetch('/api/translation/discord/')
+      .then(response => response.json())
+      .then(data => {
+        translationTextDiscord = data.translated_text;
+      });
+  }, 1000);
 </script>
 
 <main>
