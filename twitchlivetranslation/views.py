@@ -10,7 +10,7 @@ import twitchlivetranslation.consumers as consumers
 from asgiref.sync import async_to_sync
 import asyncio
 import pyaudio
-import sounddevice as sd
+import sounddevice
 from scipy.io.wavfile import write
 import wavio as wv
 import numpy as np
@@ -37,12 +37,13 @@ progress_consumer = consumers.TaskProgressConsumer()
 
 def listenMic():
   recognizer = sr.Recognizer()
-  print(sd.DeviceList())
+  print(sounddevice.query_devices())
+  sounddevice.default.device = 'VoiceMeeter Aux Output (VB-Audio VoiceMeeter AUX VAIO), Windows DirectSound'
   sample_id = 0
   while(True):
-      recording = sd.rec(int(duration * freq), 
+      recording = sounddevice.rec(int(duration * freq), 
                       samplerate=freq, channels=2)
-      sd.wait()
+      sounddevice.wait()
       audio_data = array_to_audio(recording, freq)
       threading.Thread(target=speech_to_text_translate, args=(sample_id, "microphone", audio_data, recognizer)).start()
       sample_id = (sample_id + 1) % 4
