@@ -24,6 +24,10 @@ translated_text = {
   "microphone": "",
   "discord": "",
 }
+previous_translated_text = {
+  "microphone": "",
+  "discord": "",
+}
 text_array = {
   "microphone": np.array([]),
   "discord": np.array([]),
@@ -37,7 +41,10 @@ progress_consumer = consumers.TaskProgressConsumer()
 
 def listenMic():
   recognizer = sr.Recognizer()
-  print(sounddevice.query_devices())
+  for device in sounddevice.query_devices():
+      if 'aux' in device['name']:
+          if 'output' in device['name']:
+              print(device)
   # sounddevice.default.device = 50
   # sounddevice.default.device = 'VoiceMeeter Aux Output (VB-Audio VoiceMeeter AUX VAIO), Windows DirectSound'
   # sounddevice.default.device = 'VoiceMeeter Aux Output (VB-Audio VoiceMeeter AUX VAIO), Windows WASAPI'
@@ -85,6 +92,7 @@ def speech_to_text_translate(sample_id, text_id, audio_data, recognizer):
         if sample_id == 0:
             text_array[text_id] = audio_to_array(audio_data, 44100)
             untranslated_text[text_id] = recognizer.recognize_google(audio_data, language='fr-FR')
+            previous_translated_text[text_id] = translated_text[text_id]
             translated_text[text_id] = deepl_request(untranslated_text[text_id], 'EN-US')
         elif sample_id == 2:
             np.append(text_array[text_id], audio_to_array(audio_data, 44100))
@@ -106,7 +114,7 @@ def list_microphone_devices():
         if device_info.get('maxInputChannels') > 0:
             print(f"Device ID {i}: {device_info.get('name')}")
     p.terminate()
-list_microphone_devices()
+# list_microphone_devices()
     
 
 def index(request):

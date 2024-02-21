@@ -47,6 +47,7 @@ from dotenv import load_dotenv
 # from .env file
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 DEEPL_API_KEY = os.getenv('DEEPL_API_KEY') # from .env file
+IBM_API_KEY = os.getenv('IBM_API_KEY') # from .env file
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

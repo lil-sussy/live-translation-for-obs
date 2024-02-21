@@ -14,11 +14,11 @@
       .then(response => response.json())
       .then(data => {
         if (data.mic.translated_text !== translationTextMic) {
-          translationTextMic2 = translationTextMic
+          translationTextMic2 = data.mic.previous_translated_text
           translationTextMic = data.mic.translated_text
         }
         if (data.discord.translated_text !== translationTextDiscord) {
-          translationTextDiscord2 = translationTextDiscord
+          translationTextDiscord2 = data.discord.previous_translated_text
           translationTextDiscord = data.discord.translated_text
         }
       });
@@ -27,11 +27,11 @@
 
 <main style="--size: {size}rem; --bg-color: {bg_color}">
   <div class="translation-container translation-container-discord">
-    <!-- <h2 class='translation-discord'>{translationTextDiscord2}</h2> -->
+    <h2 class='translation-discord'>{translationTextDiscord2}</h2>
     <h2 class='translation-discord'>{translationTextDiscord}</h2>
   </div>
   <div class="translation-container">
-    <!-- <h2 class='translation-mic'>{translationTextMic2}</h2> -->
+    <h2 class='translation-mic'>{translationTextMic2}</h2>
     <h2 class='translation-mic'>{translationTextMic}</h2>
   </div>
 </main>

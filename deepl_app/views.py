@@ -1,13 +1,42 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import requests
-from twitchlivetranslation.settings import DEEPL_API_KEY
+from ibm_watson import LanguageTranslatorV3
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from twitchlivetranslation.settings import DEEPL_API_KEY, IBM_API_KEY
 
 class DeepLTranslateView(APIView):
     def post(self, request, *args, **kwargs):
         # Return the DeepL response
         return Response(deepl_request(request.data['text'], request.data['target_lang']))
 
+
+
+def ibm_request(text, source_lang, target_lang):
+    url = 'https://api.au-syd.language-translator.watson.cloud.ibm.com/instances/7c38f7cc-1af1-4725-86cd-478107f8cdbd'
+    london = 'https://api.eu-gb.language-translator.watson.cloud.ibm.com'
+    authenticator = IAMAuthenticator(IBM_API_KEY)
+    language_translator = LanguageTranslatorV3(
+        version='2018-05-01',
+        authenticator=authenticator
+    )
+
+    language_translator.set_service_url('https://api.eu-gb.language-translator.watson.cloud.ibm.com/instances/7c38f7cc-1af1-4725-86cd-478107f8cdbd')
+    # translate(
+    #         self,
+    #         text: List[str],
+    #         *,
+    #         model_id: str = None,
+    #         source: str = None,
+    #         target: str = None,
+    #         **kwargs,
+    #     ) -> DetailedResponse
+    translation = language_translator.translate(
+        text=[text],
+        model_id='fr-en', source=source_lang, target=target_lang).get_result()
+    print(translation)
+ibm_request('Bonjour, comment vas-tu aujourd\'hui?', 'fr-FR', 'en-US')
+    
 
 def deepl_request(text, target_lang):
     # Your DeepL API key
