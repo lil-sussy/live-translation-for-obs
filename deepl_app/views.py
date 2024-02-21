@@ -1,9 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 import requests
-from ibm_watson import LanguageTranslatorV3
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from twitchlivetranslation.settings import DEEPL_API_KEY, IBM_API_KEY
+from twitchlivetranslation.settings import DEEPL_API_KEY, IBM_API_KEY, AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY
 
 class DeepLTranslateView(APIView):
     def post(self, request, *args, **kwargs):
@@ -12,31 +10,44 @@ class DeepLTranslateView(APIView):
 
 
 
-def ibm_request(text, source_lang, target_lang):
-    url = 'https://api.au-syd.language-translator.watson.cloud.ibm.com/instances/7c38f7cc-1af1-4725-86cd-478107f8cdbd'
-    london = 'https://api.eu-gb.language-translator.watson.cloud.ibm.com'
-    authenticator = IAMAuthenticator(IBM_API_KEY)
-    language_translator = LanguageTranslatorV3(
-        version='2018-05-01',
-        authenticator=authenticator
-    )
-
-    language_translator.set_service_url('https://api.eu-gb.language-translator.watson.cloud.ibm.com/instances/7c38f7cc-1af1-4725-86cd-478107f8cdbd')
-    # translate(
-    #         self,
-    #         text: List[str],
-    #         *,
-    #         model_id: str = None,
-    #         source: str = None,
-    #         target: str = None,
-    #         **kwargs,
-    #     ) -> DetailedResponse
-    translation = language_translator.translate(
-        text=[text],
-        model_id='fr-en', source=source_lang, target=target_lang).get_result()
-    print(translation)
-ibm_request('Bonjour, comment vas-tu aujourd\'hui?', 'fr-FR', 'en-US')
+# def ibm_request(text, source_lang, target_lang):
+#     url = 'https://api.au-syd.language-translator.watson.cloud.ibm.com/instances/7c38f7cc-1af1-4725-86cd-478107f8cdbd'
+#     london = 'https://api.eu-gb.language-translator.watson.cloud.ibm.com'
+#     authenticator = IAMAuthenticator(IBM_API_KEY)
+#     language_translator = LanguageTranslatorV3(
+#         version='2018-05-01',
+#         authenticator=authenticator
+#     )
     
+#     language_translator.set_service_url('https://api.eu-gb.language-translator.watson.cloud.ibm.com/instances/7c38f7cc-1af1-4725-86cd-478107f8cdbd')
+    
+#     # translate(
+#     #         self,
+#     #         text: List[str],
+#     #         *,
+#     #         model_id: str = None,
+#     #         source: str = None,
+#     #         target: str = None,
+#     #         **kwargs,
+#     #     ) -> DetailedResponse
+#     translation = language_translator.translate(
+#         text=[text],
+#         model_id='fr-en', source=source_lang, target=target_lang).get_result()
+#     print(translation)
+# ibm_request('Bonjour, comment vas-tu aujourd\'hui?', 'fr-FR', 'en-US')
+
+
+import boto3
+def aws_request(text, source_lang, target_lang):
+    translate = boto3.client(service_name='translate', region_name='eu-west-1', use_ssl=True, aws_access_key_id=AWS_ACCESS_KEY,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+
+    result = translate.translate_text(Text=text, 
+                SourceLanguageCode=source_lang, TargetLanguageCode=target_lang)
+    print('TranslatedText: ' + result.get('TranslatedText'))
+    print('SourceLanguageCode: ' + result.get('SourceLanguageCode'))
+    print('TargetLanguageCode: ' + result.get('TargetLanguageCode'))
+
 
 def deepl_request(text, target_lang):
     # Your DeepL API key

@@ -3,7 +3,7 @@ from django.http import JsonResponse
 import speech_recognition as sr
 import speech_recognition as sr2
 
-from deepl_app.views import deepl_request
+from deepl_app.views import deepl_request, aws_request
 from django.shortcuts import render
 import threading
 import twitchlivetranslation.consumers as consumers
@@ -98,7 +98,7 @@ def speech_to_text_translate(sample_id, text_id, audio_data, recognizer):
             np.append(text_array[text_id], audio_to_array(audio_data, 44100))
             audio = array_to_audio(text_array[text_id], 44100)
             untranslated_text[text_id] = recognizer.recognize_google(audio, language='fr-FR')
-            translated_text[text_id] = deepl_request(untranslated_text[text_id], 'EN-US')
+            translated_text[text_id] = aws_request(untranslated_text[text_id], 'FR-FR', 'EN-US')
         else:
             np.append(text_array[text_id], audio_to_array(audio_data, 44100))
             untranslated_text[text_id] += " " + recognizer.recognize_google(audio_data, language='fr-FR')
