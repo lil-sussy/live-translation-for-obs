@@ -1,8 +1,8 @@
 <script>
-  export let translationTextMic = "Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!";
-  export let translationTextDiscord = "Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!";
-  export let translationTextMic2 = "Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!";
-  export let translationTextDiscord2 = "Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!Hello, World!";
+  export let translationTextMic = "fsjdflsjflsk";
+  export let translationTextDiscord = "fsjdflsjflsk";
+  export let translationTextMic2 = "fsjdflsjflsk";
+  export let translationTextDiscord2 = "fsjdflsjflsk";
 
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -27,12 +27,12 @@
 
 <main style="--size: {size}rem; --bg-color: {bg_color}">
   <div class="translation-container translation-container-discord">
-    <h2 class='translation-discord discord-smaller'>{translationTextDiscord2}</h2>
-    <h2 class='translation-discord'>{translationTextDiscord}</h2>
+    <h2 class='translation-discord discord-smaller'><span> </span><p>{translationTextDiscord}</p></h2>
+    <h2 class='translation-discord main-discord'><span>💬 </span><p>{translationTextDiscord2}</p></h2>
   </div>
   <div class="translation-container">
-    <h2 class='translation-mic mic-smaller'>{translationTextMic2}</h2>
-    <h2 class='translation-mic'>{translationTextMic}</h2>
+    <h2 class='translation-mic mic-smaller'><span> </span><p>{translationTextMic}</p></h2>
+    <h2 class='translation-mic main-mic'><span>🎤 </span><p>{translationTextMic2}</p></h2>
   </div>
 </main>
 
@@ -58,10 +58,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: start;
+    text-align: center;
     height: 35%;
     box-sizing: border-box;
     padding-top: 0;
     padding-bottom: 4rem;
+    p {
+      margin: 0;
+    }
   }
   
   .translation-container.translation-container-discord {
@@ -70,6 +74,7 @@
   }
   
 	.translation-mic {
+    position: relative;
     text-align: center;
     color: #ffff;
 		font-size: var(--size);
@@ -77,25 +82,60 @@
     overflow: wrap;
     width: 80%;
     margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     padding-bottom: 1rem;
     box-sizing: border-box;
+    span {
+      content: '🎤 ';
+      margin-right: 1%
+    }
 	}
 	.translation-discord {
+    position: relative;
     box-sizing: border-box;
     margin: 0;
     text-align: center;
-    color: cyan;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: #7289d9;
 		font-size: calc(var(--size) * 0.6);
 		font-weight: 500;
     overflow: wrap;
     width: 80%;
     padding-bottom: 1rem;
+    span {
+      content: '💬 ';
+      margin-right: 1%;
+    }
 	}
   .mic-smaller {
+    font-style: italic;
     font-size: calc(var(--size) * 0.8);
+    span {
+      content: ' ';
+      background: url('../spinning.gif') no-repeat center center;
+      background-image: url('../spinning.gif');
+      background-size: cover;
+      width: 2.6rem;
+      height: 2.6rem;
+    }
   }
   .discord-smaller {
+    font-style: italic;
     font-size: calc(var(--size) * 0.4);
+    span {
+      content: ' ';
+      background: url('../spinning.gif') no-repeat center center;
+      background-image: url('../spinning.gif');
+      background-size: cover;
+      width: 1.7rem;
+      height: 1.7rem;
+    }
   }
 
 	@media (min-width: 640px) {
