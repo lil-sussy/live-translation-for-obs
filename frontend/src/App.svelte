@@ -27,11 +27,11 @@
 
 <main style="--size: {size}rem; --bg-color: {bg_color}">
   <div class="translation-container translation-container-discord">
-    <h2 class='translation-discord'>{translationTextDiscord2}</h2>
+    <h2 class='translation-discord discord-smaller'>{translationTextDiscord2}</h2>
     <h2 class='translation-discord'>{translationTextDiscord}</h2>
   </div>
   <div class="translation-container">
-    <h2 class='translation-mic'>{translationTextMic2}</h2>
+    <h2 class='translation-mic mic-smaller'>{translationTextMic2}</h2>
     <h2 class='translation-mic'>{translationTextMic}</h2>
   </div>
 </main>
@@ -58,14 +58,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: start;
-    height: 20%;
+    height: 35%;
     box-sizing: border-box;
     padding-top: 0;
     padding-bottom: 4rem;
   }
   
   .translation-container.translation-container-discord {
-    height: 10%;
+    height: 25%;
     padding-bottom: 4rem;
   }
   
@@ -78,8 +78,10 @@
     width: 80%;
     margin: 0;
     padding-bottom: 1rem;
+    box-sizing: border-box;
 	}
 	.translation-discord {
+    box-sizing: border-box;
     margin: 0;
     text-align: center;
     color: cyan;
@@ -89,6 +91,12 @@
     width: 80%;
     padding-bottom: 1rem;
 	}
+  .mic-smaller {
+    font-size: calc(var(--size) * 0.8);
+  }
+  .discord-smaller {
+    font-size: calc(var(--size) * 0.4);
+  }
 
 	@media (min-width: 640px) {
 		main {

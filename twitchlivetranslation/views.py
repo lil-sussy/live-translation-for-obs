@@ -34,7 +34,7 @@ text_array = {
 }
 
 freq = 44100
-duration = 5
+duration = 2
 
 
 progress_consumer = consumers.TaskProgressConsumer()
@@ -87,7 +87,7 @@ def listenDiscord():
         with sr.Microphone(1) as source:  # discord 4 mic 1
             # read the audio data from the default microphone
             try:
-                audio_data = recognizer.listen(source, timeout=5, phrase_time_limit=5)
+                audio_data = recognizer.listen(source, timeout=duration, phrase_time_limit=duration)
             except sr.WaitTimeoutError:
                 continue
             # convert speech to text
@@ -147,10 +147,12 @@ def apirequest_translated_text(request):
     return JsonResponse({
         "discord": {
             "raw_text": untranslated_text["discord"],
-            "translated_text": translated_text["discord"]
+            "translated_text": translated_text["discord"],
+            "previous_translated_text": previous_translated_text["discord"],
         },
         "mic": {
             "raw_text": untranslated_text["microphone"],
-            "translated_text": translated_text["microphone"]
+            "translated_text": translated_text["microphone"],
+            "previous_translated_text": previous_translated_text["microphone"],
         }
     })
