@@ -10,8 +10,13 @@
   const size = urlParams.get('size') || 4;
   
   window.setInterval(function(){
-    fetch('/api/translation/')
-      .then(response => response.json())
+    const now = new Date().toISOString();
+    fetch('/api/translation/', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Request-Time': now,
+      }
+    }).then(response => response.json())
       .then(data => {
         if (data.mic.translated_text !== translationTextMic) {
           translationTextMic2 = data.mic.previous_translated_text

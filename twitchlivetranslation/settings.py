@@ -134,6 +134,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'frontend/public'),
 ]
 
+LISTENING_THREADS_STARTED = False
+
 WS_PORT = 8001
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

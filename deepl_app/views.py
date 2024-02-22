@@ -46,9 +46,9 @@ def aws_request(text, source_lang, target_lang):
 
     result = translate.translate_text(Text=text, 
                 SourceLanguageCode=source_lang, TargetLanguageCode=target_lang)
-    print('TranslatedText: ' + result.get('TranslatedText'))
-    print('SourceLanguageCode: ' + result.get('SourceLanguageCode'))
-    print('TargetLanguageCode: ' + result.get('TargetLanguageCode'))
+    return result.get('TranslatedText')
+    # print('SourceLanguageCode: ' + result.get('SourceLanguageCode'))
+    # print('TargetLanguageCode: ' + result.get('TargetLanguageCode'))
 
 
 def deepl_request(text, target_lang):

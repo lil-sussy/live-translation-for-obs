@@ -14,6 +14,12 @@ import sounddevice
 from scipy.io.wavfile import write
 import wavio as wv
 import numpy as np
+import pytz
+from datetime import datetime
+from datetime import timedelta
+SERVER_START_TIME = datetime.now(pytz.utc)
+import twitchlivetranslation.settings as settings
+from twitchlivetranslation.settings import LISTENING_THREADS_STARTED
 
 
 untranslated_text = {
@@ -32,9 +38,15 @@ text_array = {
   "microphone": np.array([]),
   "discord": np.array([]),
 }
+sample_ids = {
+  "microphone": 0,
+  "discord": 0,
+}
 
 freq = 44100
 duration = 2
+SOURCE_LANG = 'fr-FR'
+TARGET_LANG = 'en-US'
 
 
 progress_consumer = consumers.TaskProgressConsumer()
@@ -48,14 +60,14 @@ def listenMic():
   # sounddevice.default.device = 50
   # sounddevice.default.device = 'VoiceMeeter Aux Output (VB-Audio VoiceMeeter AUX VAIO), Windows DirectSound'
   # sounddevice.default.device = 'VoiceMeeter Aux Output (VB-Audio VoiceMeeter AUX VAIO), Windows WASAPI'
-  sample_id = 0
+  sample_ids["microphone"] = 0
   while(True):
-      recording = sounddevice.rec(int(duration * 48000), 
+      recording = sounddevice.rec(int(duration * freq), 
                       samplerate=freq, channels=2)
       sounddevice.wait()
-      audio_data = array_to_audio(recording, 48000)
-      threading.Thread(target=speech_to_text_translate, args=(sample_id, "microphone", audio_data, recognizer, 48000)).start()
-      sample_id = (sample_id + 1) % 4
+      audio_data = array_to_audio(recording, freq)
+      threading.Thread(target=speech_to_text_translate, args=(sample_ids["microphone"], "microphone", audio_data, recognizer, freq)).start()
+      sample_ids["microphone"] = (sample_ids["microphone"] + 1) % 4
 
 def array_to_audio(array, sample_rate):
     # If array is 2D (stereo), you should convert it to mono by averaging the channels
@@ -82,7 +94,7 @@ def audio_to_array(audio_data, sample_rate):
 
 def listenDiscord():
     recognizer = sr.Recognizer()
-    sample_id = 0
+    sample_ids['discord'] = 0
     while(True):
         with sr.Microphone(1) as source:  # discord 4 mic 1
             # read the audio data from the default microphone
@@ -90,28 +102,42 @@ def listenDiscord():
                 audio_data = recognizer.listen(source, timeout=duration, phrase_time_limit=duration)
             except sr.WaitTimeoutError:
                 continue
-            # convert speech to text
-            # speech_to_text_translate(sample_id, "discord", audio_data, recognizer)
-            threading.Thread(target=speech_to_text_translate, args=(sample_id, "discord", audio_data, recognizer)).start()
-            sample_id = (sample_id + 1) % 4
+            except sr.UnknownValueError:
+                continue
+            threading.Thread(target=speech_to_text_translate, args=(sample_ids['discord'], "discord", audio_data, recognizer)).start()
+            sample_ids['discord'] = (sample_ids['discord'] + 1) % 4
 
 import traceback
+def recognize_text(recognizer, audio_data, source_lang):
+    try:
+        return recognizer.recognize_google(audio_data, language=source_lang)
+    except Exception as e:
+        return ""
+
 def speech_to_text_translate(sample_id, text_id, audio_data, recognizer, frequency=44100):
     try:
+        new_text_is_empty = False
         if sample_id == 0:
             text_array[text_id] = audio_to_array(audio_data, frequency)
-            untranslated_text[text_id] = recognizer.recognize_google(audio_data, language='fr-FR')
-            previous_translated_text[text_id] = translated_text[text_id]
-            translated_text[text_id] = deepl_request(untranslated_text[text_id], 'EN-US')
-        elif sample_id == 2:
+            untranslated_text[text_id] = recognize_text(recognizer, audio_data, SOURCE_LANG)
+            new_text_is_empty = untranslated_text[text_id] == ""
+            translated_text[text_id] = aws_request(untranslated_text[text_id], SOURCE_LANG, TARGET_LANG)
+        elif sample_id == 1:
+            np.append(text_array[text_id], audio_to_array(audio_data, frequency))
+            new_text = recognize_text(recognizer, audio_data, SOURCE_LANG)
+            new_text_is_empty = len(new_text) == 0
+            untranslated_text[text_id] += " " + new_text
+            translated_text[text_id] = aws_request(untranslated_text[text_id], SOURCE_LANG, TARGET_LANG)
+        if new_text_is_empty or sample_id == 2:
+            sample_ids[text_id] = 0
             np.append(text_array[text_id], audio_to_array(audio_data, frequency))
             audio = array_to_audio(text_array[text_id], frequency)
-            untranslated_text[text_id] = recognizer.recognize_google(audio, language='fr-FR')
-            translated_text[text_id] = aws_request(untranslated_text[text_id], 'FR-FR', 'EN-US')
-        else:
-            np.append(text_array[text_id], audio_to_array(audio_data, frequency))
-            untranslated_text[text_id] += " " + recognizer.recognize_google(audio_data, language='fr-FR')
-            translated_text[text_id] = deepl_request(untranslated_text[text_id], 'EN-US')
+            untranslated_text[text_id] = recognize_text(recognizer, audio, SOURCE_LANG)
+            previous_translated_text[text_id] = aws_request(untranslated_text[text_id], SOURCE_LANG, TARGET_LANG)
+            untranslated_text[text_id] = ""
+            text_array[text_id] = np.array([])
+            translated_text[text_id] = ""
+        return sample_id
     except Exception as e:
         print(traceback.format_exc())
         pass
@@ -128,22 +154,44 @@ list_microphone_devices()
     
 
 def index(request):
-    start_listening()
+    # start_listening()
     return render(request, 'index.html')
   
 microphone_thread = threading.Thread(target=listenMic)
 discord_thread = threading.Thread(target=listenDiscord)
 
 def start_listening():
+    try:
+        if LISTENING_THREADS_STARTED:
+            return
+    except UnboundLocalError as e:
+         return
+    settings.LISTENING_THREADS_STARTED = True
     if not discord_thread.is_alive():
         discord_thread.start()
     if not microphone_thread.is_alive():
         microphone_thread.start()
 
 def apirequest_translated_text(request):
-    # if not discord_thread.is_alive():
-    #       discord_thread.start()
-    # start_listening()
+    try:
+        request_time_str = request.headers.get('Request-Time')
+        if request_time_str is None:
+            return JsonResponse(status=400, data={"error":"Please include Request-Time header in the request. Format: 'YYYY-MM-DDTHH:MM:SS.ssssss+00:00'"})
+        # request_time = datetime.fromisoformat(request_time_str)
+        # If the datetime string ends with 'Z', replace 'Z' with '+00:00'
+        if request_time_str.endswith('Z'):
+            request_time_str = request_time_str[:-1] + '+00:00'
+        request_time = datetime.strptime(request_time_str, '%Y-%m-%dT%H:%M:%S.%f%z')
+    except ValueError:
+        # Handle the error or re-raise with a custom message
+        return JsonResponse(status=400, data={
+            "error": "Request time is too old"
+        })
+    if request_time < datetime.now(pytz.utc) - timedelta(seconds=1):
+        return JsonResponse(status=400, data={
+            "error": "Request time is too old"
+        })
+    start_listening()
     return JsonResponse({
         "discord": {
             "raw_text": untranslated_text["discord"],
