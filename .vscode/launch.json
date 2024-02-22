@@ -15,6 +15,13 @@
       "django": true
     },
     {
+      "name": "sussy",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/device.py",
+      "django": false
+    },
+    {
       "type": "chrome",
       "request": "launch",
       "name": "Launch Chrome against localhost",

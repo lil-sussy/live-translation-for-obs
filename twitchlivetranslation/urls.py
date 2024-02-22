@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls import path, include  # Add includefrom 
-rfrom twitchlivetranslation.views import index  # Add index
+from twitchlivetranslation.views import index  # Add index
 from twitchlivetranslation.views import apirequest_translated_text  # Add index
 
 urlpatterns = [

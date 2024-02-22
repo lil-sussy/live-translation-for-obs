@@ -39,6 +39,8 @@ class DeepLTranslateView(APIView):
 
 import boto3
 def aws_request(text, source_lang, target_lang):
+    if len(text) == 0:
+        return ''
     translate = boto3.client(service_name='translate', region_name='eu-west-1', use_ssl=True, aws_access_key_id=AWS_ACCESS_KEY,
     aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
@@ -50,6 +52,8 @@ def aws_request(text, source_lang, target_lang):
 
 
 def deepl_request(text, target_lang):
+    if len(text) == 0:
+      return ''
     # Your DeepL API key
     deepl_api_key = DEEPL_API_KEY
     
