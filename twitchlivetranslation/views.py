@@ -16,6 +16,7 @@ import wavio as wv
 import numpy as np
 import pytz
 from datetime import datetime
+import queue
 from datetime import timedelta
 SERVER_START_TIME = datetime.now(pytz.utc)
 import twitchlivetranslation.settings as settings
@@ -94,9 +95,10 @@ def audio_to_array(audio_data, sample_rate):
 
 def listenDiscord():
     recognizer = sr.Recognizer()
+    audio_queue = queue.Queue()
     sample_ids['discord'] = 0
     while(True):
-        with sr.Microphone(1) as source:  # discord 4 mic 1
+        with sr.Microphone(4) as source:  # discord 4 mic 1
             # read the audio data from the default microphone
             try:
                 audio_data = recognizer.listen(source, timeout=duration, phrase_time_limit=duration)
