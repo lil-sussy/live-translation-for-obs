@@ -19,12 +19,12 @@
     }).then(response => response.json())
       .then(data => {
         if (data.mic.translated_text !== translationTextMic) {
-          translationTextMic2 = data.mic.previous_translated_text
-          translationTextMic = data.mic.translated_text
+          // translationTextMic2 = data.mic.previous_translated_text
+          translationTextMic2 = data.mic.translated_text
         }
         if (data.discord.translated_text !== translationTextDiscord) {
-          translationTextDiscord2 = data.discord.previous_translated_text
-          translationTextDiscord = data.discord.translated_text
+          // translationTextDiscord2 = data.discord.previous_translated_text
+          translationTextDiscord2 = data.discord.translated_text
         }
       });
     }, 1000);
@@ -32,12 +32,12 @@
 
 <main style="--size: {size}rem; --bg-color: {bg_color}">
   <div class="translation-container translation-container-discord">
-    <h2 class='translation-discord discord-smaller'><span> </span><p>{translationTextDiscord}</p></h2>
-    <h2 class='translation-discord main-discord'><span>💬 </span><p>{translationTextDiscord2}</p></h2>
+    <!-- <h2 class='translation-discord discord-smaller'><span> </span><p>{translationTextDiscord}</p></h2> -->
+    <h2 class='translation-discord main-discord'><span>💬 </span><span class='discord-smaller'></span><p>{translationTextDiscord2}</p></h2>
   </div>
   <div class="translation-container">
-    <h2 class='translation-mic mic-smaller'><span> </span><p>{translationTextMic}</p></h2>
-    <h2 class='translation-mic main-mic'><span>🎤 </span><p>{translationTextMic2}</p></h2>
+    <!-- <h2 class='translation-mic mic-smaller'><span> </span><p>{translationTextMic}</p></h2> -->
+    <h2 class='translation-mic main-mic'><span>🎤 </span><span class='mic-smaller'></span><p>{translationTextMic2}</p></h2>
   </div>
 </main>
 
@@ -50,7 +50,7 @@
     display: flex;
     flex-direction: column;
     justify-content: end;
-    background-color: var(--bg-color);
+    // background-color: var(--bg-color);
     width: 100vw;
     height: 100vh;
 		padding: 1rem;
@@ -64,7 +64,7 @@
     align-items: center;
     justify-content: start;
     text-align: center;
-    height: 35%;
+    height: 25%;
     box-sizing: border-box;
     padding-top: 0;
     padding-bottom: 4rem;
@@ -99,6 +99,7 @@
     }
 	}
 	.translation-discord {
+    -webkit-text-stroke: white 2px;
     position: relative;
     box-sizing: border-box;
     margin: 0;
@@ -109,7 +110,7 @@
     align-items: center;
     color: #7289d9;
 		font-size: calc(var(--size) * 0.6);
-		font-weight: 500;
+		font-weight: 700;
     overflow: wrap;
     width: 80%;
     padding-bottom: 1rem;
@@ -119,27 +120,23 @@
     }
 	}
   .mic-smaller {
-    font-style: italic;
-    font-size: calc(var(--size) * 0.8);
+    content: ' ';
+    background: url('../spinning.gif') no-repeat center center;
+    background-image: url('../spinning.gif');
+    background-size: cover;
+    width: 2.6rem;
+    height: 2.6rem;
     span {
-      content: ' ';
-      background: url('../spinning.gif') no-repeat center center;
-      background-image: url('../spinning.gif');
-      background-size: cover;
-      width: 2.6rem;
-      height: 2.6rem;
     }
   }
   .discord-smaller {
-    font-style: italic;
-    font-size: calc(var(--size) * 0.4);
+    content: ' ';
+    background: url('../spinning.gif') no-repeat center center;
+    background-image: url('../spinning.gif');
+    background-size: cover;
+    width: 1.7rem;
+    height: 1.7rem;
     span {
-      content: ' ';
-      background: url('../spinning.gif') no-repeat center center;
-      background-image: url('../spinning.gif');
-      background-size: cover;
-      width: 1.7rem;
-      height: 1.7rem;
     }
   }
 

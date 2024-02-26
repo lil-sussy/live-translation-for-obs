@@ -30,8 +30,8 @@ def index(request):
     return render(request, 'index.html')
 
 import twitchlivetranslation.ContinuousRecognizer as ContinuousRecognizer
-mic_recognizer = ContinuousRecognizer.ContinuousRecognizer(1) # discord 4 mic 1
 discord_recognizer = ContinuousRecognizer.ContinuousRecognizer(4)
+mic_recognizer = ContinuousRecognizer.ContinuousRecognizer(1) # discord 4 mic 1
 def apirequest_translated_text(request):
     try:
         request_time_str = request.headers.get('Request-Time')
@@ -56,9 +56,9 @@ def apirequest_translated_text(request):
     discord_recognizer.start()
     return JsonResponse({
         "discord": {
-            "translated_text": mic_recognizer.last_translated_text,
+            "translated_text": discord_recognizer.last_translated_text,
         },
         "mic": {
-            "translated_text": discord_recognizer.last_translated_text,
+            "translated_text": mic_recognizer.last_translated_text,
         }
     })
